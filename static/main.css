@@ -1,0 +1,265 @@
+@font-face {
+    font-family: "FangSong";
+    src: url(./fonts/simfang.ttf) format("truetype");
+}
+
+body {
+	font-family: FangSong;
+	color: #FFF;
+	background: #F0F0F0;
+}
+
+div.form{
+	padding: 3px;
+	margin: auto;
+}
+
+div.card {
+	background: #F5F5F5;
+	width: 80%;
+	height: 10%;
+	box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2), 0 9px 25px 0 rgba(0, 0, 0, 0.19);
+	margin: 20px;
+	overflow: auto;
+}
+/*background: #4CAF50;*/
+#index-card{
+	background: #e6f2ff;
+	height:auto;
+	padding: 5%;
+	min-width: 100%;
+	display: inline-block;
+}
+
+div.card-header {
+	text-align: center;
+	color: black;
+    padding: 10px;
+	height: 1%;
+}
+
+div.card-container {
+	background-color: #e6f2ff;
+    color: black;
+    padding: 10px;
+}
+
+div.button{
+	padding: 5px;
+}
+
+div.login{
+	float: right;
+}
+
+div.wrapper{
+	 box-sizing: border-box;
+	width: 100%;
+	display: table;
+}
+
+div.topics{
+	width: 20%;
+	height: 100%;
+	float: left;
+	margin-right: 20%;
+	position: fixed;
+	background: #e6f2ff;
+	overflow: auto;
+}
+
+div.contents{
+	color: black;
+	width: 73%;
+	height: 100%;
+	position: fixed;
+	margin-left: 20%;
+	margin-right: 10%;
+	padding: 3%;
+	float: right;
+	display: block;
+}
+
+div.comments{
+	overflow: auto;
+	height: 65%;
+	border: 2px solid gray;
+	margin-bottom: 20px;
+	box-shadow: box-sizing;
+	border-radius: 4px;
+}
+
+div.individual--comments{
+	width:98%;
+	background: #D3D3D3;
+	padding: 1%;
+	display: inline-block;
+	margin-bottom: 5px;
+	border-radius: 4px;
+}
+
+div.write{
+	position: relative;
+	width: 80.2%;
+	position: inline-block;
+	padding:1%;
+	margin-bottom: 1.8%;
+}
+
+.clearfix{
+	clear: both;
+}
+
+.center--text{
+	text-align: center;
+}
+
+
+label:not(.remember-me) {
+  display: inline-block;
+  min-width: 150px;
+	padding-left: 6%;
+	padding-right: 6%;
+}
+
+input:not([type="checkbox"]) {
+    width: 50%;
+    padding: 0.5em;
+}
+
+input[type=text], select {
+    border: 1px solid #FFFFFF;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type=password], select {
+    border: 1px solid #FFFFFF ;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.topic-button{
+	border:none;
+	display:inline-block;
+	outline:0;
+	padding:8px 16px;
+	vertical-align:middle;
+	overflow:hidden;
+	color:black;
+	background-color:#e6f2ff;
+	text-align:left;
+	cursor:pointer;
+	black-space:normal;
+	margin-bottom: 10px;
+}
+
+.topic-button:hover{
+	  box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+}
+
+#index-card:hover{
+	background-color: #00000;
+}
+
+.topic-button:active {
+  background-color:#114713;
+}
+
+/*FOR DROPDOWN*/
+div.categories{
+  position: relative;
+  display: inline-block;
+}
+
+.dropbtn {
+    background-color:transparent;
+    font-family: FangSong;
+    border:none;
+  	outline:0;
+    display: inline-block;
+    color: gray;
+    padding:8px 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    vertical-align: middle;
+    black-space: normal;
+    text-align: center;
+    float: left;
+
+}
+
+.dropbtn:hover, .dropbtn:focus {
+    background-color:#e6f2ff;
+}
+
+#myInput {
+    border-box: box-sizing;
+    background-image: url('searchicon.png');
+    background-position: 14px 12px;
+    background-repeat: no-repeat;
+    font-size: 16px;
+    padding: 14px 20px 12px 45px;
+    border: none;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+
+    border:none;
+    padding:8px 16px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    display: none;
+    outline:0;
+    position: fixed;
+    background-color: #f6f6f6;
+    vertical-align:right;
+    black-space:normal;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown a:hover {background-color: #ddd}
+
+.dropdown-content button {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    background-color: transparent;
+}
+
+.dropdown button:hover {background-color: #ddd}
+.categories button:hover {background-color: #ddd}
+
+.show {display:block;}
+
+.category-button{
+	border:none;
+	display:inline-block;
+	outline:0;
+	padding:8px 16px;
+	vertical-align:middle;
+	overflow:hidden;
+	color:black;
+	background-color: white;
+	text-align:left;
+	cursor:pointer;
+	black-space:normal;
+	margin-bottom: 10px;
+}
+
+.category-button:hover{
+	  box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+}

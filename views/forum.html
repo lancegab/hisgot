@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Hisgot</title>
+		<link rel="stylesheet" href="../static/main.css">
+	</head>
+	<body>
+		<div class="wrapper">
+			<div class = "categories">
+				<button onclick="myFunction()" class="dropbtn">Categories {% if currentCategory %}: {{currentCategory}} {% endif %} </button>
+					<div id="categoryDropdown" class="dropdown-content">
+						{% for category in categories %}
+							<form action = "/viewCategory" method = "post">
+								<input type="hidden" name="category_id" value="{{category.id}}">
+								<input type="hidden" name="category_name" value="{{category.name}}">
+								<button class = "category-button">{{category.name}}</button>
+							</form>
+						{% endfor %}
+					</div>
+			</div>
+			<div class="topics">
+					{% for topic in topics%}
+						<form action = "/viewTopic" method = "post">
+							<div>
+								<input type="hidden" name="topic_id" value="{{topic.id}}">
+								<button id = "index-card" class="topic-button">{{topic.headline}}</button>
+							</div>
+						</form>
+
+					{% endfor %}
+			</div>
+			<div class="contents">
+				<div class="comments">
+						{% for message in messages%}
+						<div class="individual--comments">
+							<h4>{{message.content}}</h4>
+							<br><br>{{message.sender}} -
+							{{message.createdAt}}
+							<form action="/viewReplies" method = "get">
+								<input type="hidden" name="message_id" value="{{message.id}}">
+								<button>View replies</button>
+							</form>
+							<ol></ol>
+							<form action="/replyToMessage" method = "post">
+								<input type="hidden" name="message_id" value="{{message.id}}">
+								<button>Reply</button>
+							</form>
+						</div>
+						<div id = "{{message.id}}"></div>
+						{% endfor %}
+					</div>
+
+				<div class="write">
+					<div class = "form">
+						<form action="/send" method="post">
+							<input type="text" name="content" placeholder="Write message" autofocus>
+							<button type = 'submit'>Send</button>
+						</form>
+					</div>
+					<div class = "form">
+						<form action="/createTopic" method="post">
+							<input type="text" name="headline" placeholder="Write new topic" autofocus>
+							<button>Start the conversation</button>
+						</form>
+						<!--<form action="/createCategory" method="post">
+							<input type="text" name="category" placeholder="Write new category" autofocus>
+							<button>Create category</button>
+						</form> -->
+					</div>
+				</div>
+				<div style = "float: right">
+						<form method="get" action="/signout">
+							<section class="content">
+								<button class="topic-button" data-text="Logout" type="submit">Logout</button>
+							</section>
+						</form>
+				</div>
+			</div>
+		</div>
+		<script src="./static/jquery.js"></script>
+		<script src="./static/scripts.js"></script>
+	</body>
+</html>
