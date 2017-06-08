@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 
-const connectionUrl = 'postgres://istoryuser:istorypass@localhost:5432/istoryup';
+const connectionUrl = 'postgres://hisgotuser:hisgotpass@localhost:5432/hisgot';
 
 const database = new Sequelize(connectionUrl);
 

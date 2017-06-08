@@ -13,6 +13,7 @@ const Topics = require('./models').Topics;
 const Messages = require('./models').Messages;
 const Categories = require('./models').Categories;
 
+
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 //var xhr = new XMLHttpRequest();
 
@@ -33,6 +34,11 @@ app.use(flash());
 app.use('/static', express.static('./static'));
 app.use(require('./routes/route'));
 
+//-------------------------------------------------------------//
+
+
+
+//render the main page
 app.get('/', function(req, res) {
 	res.render('index.html');
 });
@@ -42,20 +48,19 @@ app.post('/signup', function(req, res){
 	console.log(req.body);
 });
 
-
 app.get('/retrieveMessages', middlewares.requireSignedIn, function(req,res){
-
   res.send(Messages.findAll({where : {topic_id : req.session.ref_id}}));
-
 });
 
+app.get('/addTopic', middlewares.requireSignedIn, function(req,res){
+  res.render('addTopic.html');
+});
 
 app.get('/forum', middlewares.requireSignedIn, function(req,res){
 
-  Messages.findAll({where : {topic_id : req.session.ref_id}}).then(function(msgs){
 
-    Topics.findAll({where : {category : req.session.category_id}, order: '"createdAt" DESC'}).then(function(tpcs){
-
+  Topics.findAll({where : {category : req.session.category_id}, order: '"createdAt" DESC'}).then(function(tpcs){
+     Messages.findAll({where : {id : req.session.topic_id}}).then(function(msgs){
       Categories.findAll({order: '"createdAt" DESC'}).then(function(ctgry){
         res.render('forum.html',{
           currentCategory : req.session.category_name,
@@ -68,41 +73,33 @@ app.get('/forum', middlewares.requireSignedIn, function(req,res){
   });
 });
 
-
 app.get('/viewReplies', middlewares.requireSignedIn, middlewares.retrieveSignedInUser, function(req,res){
-  req.session.ref_id = req.body.message_id;
-  //var replyContainer = document.getElementById(req.session.ref_id);
-
-  Messages.findAll({where : {topic_id : req.session.ref_id}}).then(function(msgs){
-
-  res.send(msgs);
-  //   var htmlString = "";
-  // //  for(i = 0; i < msgs.length; i++){
-  // //    htmlString += "<p>" + msgs[i].content + "</p>";
-  // //  }
-    // res.render('forum.html', {
-    //   replies : msgs
-    // });
-  //   //replyContainer.insertAdjacentHTML('beforeend', "This is awesome");
+  console.log("AMAZING");
+  console.log(req.session.ref_id);
+  Messages.findAll({where : {ref_id : req.session.ref_id}}).then(function(msgs){
+    res.send(msgs);
   });
 });
 
-app.post('/send', middlewares.requireSignedIn, middlewares.retrieveSignedInUser, function(req,res){
+app.get('/currentMessage', middlewares.requireSignedIn, middlewares.retrieveSignedInUser, function(req,res){
+
+  req.session.ref_id = req.query.id;
+  res.send("Ok");
+});
+
+app.post('/reply', middlewares.requireSignedIn, middlewares.retrieveSignedInUser, function(req,res){
   const content = req.body.content;
+  req.session.ref_id = req.body.message_id;
   const user = req.user;
-  console.log("SENDING");
-  console.log(req.session.ref_id);
+
   var message =  Messages.create({
       content : content,
-      topic_id : req.session.ref_id,
+      ref_id : req.session.ref_id,
       sender: user.username,
       votes: 0
     }).then(function(){
-      //req.flash('postTopicMessage', 'Successfully posted a topic!');
       res.redirect('/forum');
     });
-
-//    res.send(message);
 
 });
 
@@ -114,34 +111,36 @@ app.post('/viewCategory', middlewares.requireSignedIn, middlewares.retrieveSigne
 })
 
 app.post('/viewTopic', middlewares.requireSignedIn, middlewares.retrieveSignedInUser, function(req,res){
-  req.session.ref_id = req.body.topic_id;
-  console.log(req.session.ref_id);
+  req.session.topic_id = req.body.topic_id;
   console.log("HERE OH ");
   res.redirect('/forum');
 });
 
-// app.post('/replyToMessage', middlewares.requireSignedIn, middlewares.retrieveSignedInUser, function(req,res){
-//   req.session.ref_id = req.body.message_id;
-//   res.redirect('/forum');
-// });
-
 app.post('/createTopic', middlewares.requireSignedIn, middlewares.retrieveSignedInUser, function(req,res){
   const headline = req.body.headline;
+  const content = req.body.content;
   const user = req.user;
   const category_id = req.session.category_id;
 
-  console.log(headline);
-  console.log(user.id);
+  Messages.create({
+      content : content,
+      ref_id : null,
+      sender: user.username,
+      votes: 0
+    }).then(function(msg){
+      Topics.create({
+        headline : headline,
+        message_id : msg.id,
+        user_id : user.id,
+        votes: 0,
+        category : category_id
+      }).then(function(){
+        req.flash('postTopicMessage', 'Successfully posted a topic!');
+        res.redirect('/forum');
+      });
+    });
 
-  Topics.create({
-    headline : headline,
-    user_id : user.id,
-    votes: 0,
-    category : category_id
-  }).then(function(){
-    req.flash('postTopicMessage', 'Successfully posted a topic!');
-    res.redirect('/forum');
-  });
+
 });
 
 app.post('/createCategory', middlewares.requireSignedIn, middlewares.retrieveSignedInUser, function(req,res){
@@ -165,7 +164,6 @@ app.post('/upvoteTopic', middlewares.requireSignedIn, middlewares.retrieveSigned
     topic.votes = topics.votes + 1;
   })
 });
-
 
 app.post('/upvoteMessage', middlewares.requireSignedIn, middlewares.retrieveSignedInUser, function(req,res){
 

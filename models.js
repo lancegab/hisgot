@@ -69,7 +69,7 @@ const Topics = database.define('topics', {
 				key: 'id'
 		},
 		allowNull : false
-	}
+	},
 
 	user_id: {
 			type: Sequelize.INTEGER,
@@ -113,7 +113,7 @@ const Messages = database.define('messages', {
 					model: 'messages',
 					key: 'id'
 			},
-			allowNull: true;
+			allowNull: true
 	},
 	sender: {
 			type: Sequelize.STRING,
@@ -131,6 +131,7 @@ const Messages = database.define('messages', {
 	timestamps: true
 });
 
+database.sync();
 
 
 module.exports.User = User;

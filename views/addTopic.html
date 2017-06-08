@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Hisgot</title>
+		<link rel="stylesheet" href="../static/main.css">
+	</head>
+	<body>
+		<div class="wrapper">
+			<div class="contents">
+				<div class="write">
+					<div class = "form">
+						<form action="/createTopic" method="post">
+							<input type="text" name="headline" placeholder="Write the headline" autofocus>
+							<input type="text" name="content" placeholder="Write the message" autofocus>
+							<button type = 'submit'>Create thread!</button>
+						</form>
+					</div>
+				</div>
+				<div style = "float: right">
+						<form method="get" action="/signout">
+							<section class="content">
+								<button class="topic-button" data-text="Logout" type="submit">Logout</button>
+							</section>
+						</form>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

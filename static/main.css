@@ -74,18 +74,20 @@ div.contents{
 	height: 100%;
 	position: fixed;
 	margin-left: 20%;
-	margin-right: 10%;
-	padding: 3%;
+	margin-right: 2%;
+	/*padding: 3%;*/
+  padding-left: 2%;
+  padding-right: 2%;
 	float: right;
 	display: block;
 }
 
 div.comments{
 	overflow: auto;
-	height: 65%;
-	border: 2px solid gray;
-	margin-bottom: 20px;
-	box-shadow: box-sizing;
+	height: 80%;
+	/*border: 2px solid gray;*/
+	/*margin-bottom: 5px;*/
+	/*box-shadow: box-sizing;*/
 	border-radius: 4px;
 }
 
@@ -98,12 +100,23 @@ div.individual--comments{
 	border-radius: 4px;
 }
 
+li.comment{
+	width:98%;
+	background: #D3D3D3;
+	padding: 1%;
+	display: inline-block;
+	margin-bottom: 5px;
+	border-radius: 4px;
+  background: red;
+}
+
 div.write{
 	position: relative;
 	width: 80.2%;
 	position: inline-block;
 	padding:1%;
 	margin-bottom: 1.8%;
+  display: none;
 }
 
 .clearfix{
