@@ -22,7 +22,7 @@ function addMessage(message) {
 							+ '<form action="/reply" method = "post">'
 							+ '<input type="hidden" name="message_id" value="' + message.id + '">'
 							+ '<input type="text" name="content" placeholder="Write message" autofocus>'
-							+ '<button type = "submit">Send</button>'
+							+ '<button type = "submit"> Send</button>'
 							+ '</form>'
 						+ '</div></div>'
 						+'</li>');

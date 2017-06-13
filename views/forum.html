@@ -23,6 +23,7 @@
 						<form action = "/viewTopic" method = "post">
 							<div>
 								<input type="hidden" name="topic_id" value="{{topic.id}}">
+								<input type="hidden" name="message_id" value="{{topic.message_id}}">
 								<button id = "index-card" class="topic-button">{{topic.headline}}</button>
 							</div>
 						</form>
@@ -40,6 +41,11 @@
 
 							<button onclick="showMessageField()">Reply</button>
 
+							<form action="#" method = "get" id = "viewReplies">
+								<input id = "parentMessage" type="hidden" name="message_id" value="{{message.id}}">
+								<button>View replies</button>
+							</form>
+
 							<div class="write" id="messageField">
 								<div class = "form">
 									<form action="/reply" method = "post">
@@ -48,22 +54,12 @@
 										<button type = 'submit'>Send</button>
 									</form>
 								</div>
-
 							</div>
-
-							<form action="#" method = "get" id = "viewReplies">
-								<input id = "parentMessage" type="hidden" name="message_id" value="{{message.id}}">
-								<button>View replies</button>
-							</form>
 							<ol id="replyContainer"></ol>
-
-
-
 						</div>
-						<div id = "{{message.id}}"></div>
 						{% endfor %}
 				</div>
-<!--
+				<!--
 				<div class="write" id="messageField">
 					<div class = "form">
 						<form action="/send" method="post">
@@ -72,16 +68,16 @@
 						</form>
 					</div>
 				</div> -->
-					<div class = "form">
-						<!-- <form action="/createTopic" method="post">
+					<!-- <div class = "form">
+						<form action="/createTopic" method="post">
 							<input type="text" name="headline" placeholder="Write new topic" autofocus>
 							<button>Start the conversation</button>
 						</form>
 						<form action="/createCategory" method="post">
 							<input type="text" name="category" placeholder="Write new category" autofocus>
 							<button>Create category</button>
-						</form> -->
-					</div>
+						</form>
+					</div> -->
 					<a href = "/addTopic">Add topic</a>
 				</div>
 				<div style = "float: right">

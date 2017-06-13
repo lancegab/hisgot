@@ -93,7 +93,7 @@ div.comments{
 
 div.individual--comments{
 	width:98%;
-	background: #D3D3D3;
+	background: #e3e3e3;
 	padding: 1%;
 	display: inline-block;
 	margin-bottom: 5px;
@@ -102,12 +102,11 @@ div.individual--comments{
 
 li.comment{
 	width:98%;
-	background: #D3D3D3;
+	background:#d1d1d1;
 	padding: 1%;
 	display: inline-block;
 	margin-bottom: 5px;
 	border-radius: 4px;
-  background: red;
 }
 
 div.write{
@@ -118,6 +117,15 @@ div.write{
 	margin-bottom: 1.8%;
   display: none;
 }
+div.writeTopic{
+	position: relative;
+	width: 80.2%;
+	position: inline-block;
+	padding:1%;
+	margin-bottom: 1.8%;
+  display: inline-block;
+}
+
 
 .clearfix{
 	clear: both;

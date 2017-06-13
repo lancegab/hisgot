@@ -14,7 +14,7 @@ const Messages = require('./models').Messages;
 const Categories = require('./models').Categories;
 
 
-var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+//var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 //var xhr = new XMLHttpRequest();
 
 const app = express();
@@ -32,35 +32,26 @@ app.use(flash());
 
 
 app.use('/static', express.static('./static'));
-app.use(require('./routes/route'));
+app.use(require('./routes/auth'));
 
 //-------------------------------------------------------------//
 
 
 
-//render the main page
+//renders the main page
 app.get('/', function(req, res) {
 	res.render('index.html');
 });
 
-app.post('/signup', function(req, res){
-	const name = req.body.name;
-	console.log(req.body);
-});
-
-app.get('/retrieveMessages', middlewares.requireSignedIn, function(req,res){
-  res.send(Messages.findAll({where : {topic_id : req.session.ref_id}}));
-});
-
-app.get('/addTopic', middlewares.requireSignedIn, function(req,res){
+//renders the addTopic page
+app.get('/addTopic', middlewares.requireSignedIn, middlewares.retrieveSignedInUser, function(req,res){
   res.render('addTopic.html');
 });
 
-app.get('/forum', middlewares.requireSignedIn, function(req,res){
-
-
+//renders the main view: the forum itself
+app.get('/forum', middlewares.requireSignedIn, middlewares.retrieveSignedInUser, function(req,res){
   Topics.findAll({where : {category : req.session.category_id}, order: '"createdAt" DESC'}).then(function(tpcs){
-     Messages.findAll({where : {id : req.session.topic_id}}).then(function(msgs){
+     Messages.findAll({where : {id : req.session.message_id}}).then(function(msgs){
       Categories.findAll({order: '"createdAt" DESC'}).then(function(ctgry){
         res.render('forum.html',{
           currentCategory : req.session.category_name,
@@ -73,20 +64,20 @@ app.get('/forum', middlewares.requireSignedIn, function(req,res){
   });
 });
 
+//sends an object that contains all the replies of the current message
 app.get('/viewReplies', middlewares.requireSignedIn, middlewares.retrieveSignedInUser, function(req,res){
-  console.log("AMAZING");
-  console.log(req.session.ref_id);
   Messages.findAll({where : {ref_id : req.session.ref_id}}).then(function(msgs){
     res.send(msgs);
   });
 });
 
+//sets the current message
 app.get('/currentMessage', middlewares.requireSignedIn, middlewares.retrieveSignedInUser, function(req,res){
-
   req.session.ref_id = req.query.id;
   res.send("Ok");
 });
 
+//creates a new message that references a parent message
 app.post('/reply', middlewares.requireSignedIn, middlewares.retrieveSignedInUser, function(req,res){
   const content = req.body.content;
   req.session.ref_id = req.body.message_id;
@@ -103,6 +94,7 @@ app.post('/reply', middlewares.requireSignedIn, middlewares.retrieveSignedInUser
 
 });
 
+//changes the session's category_id; changes the current category viewed by the user
 app.post('/viewCategory', middlewares.requireSignedIn, middlewares.retrieveSignedInUser, function(req,res){
   req.session.category_id = req.body.category_id;
   req.session.category_name = req.body.category_name;
@@ -110,12 +102,14 @@ app.post('/viewCategory', middlewares.requireSignedIn, middlewares.retrieveSigne
   res.redirect('/forum');
 })
 
+//changes the session's topic_id; changes the topic viewed by the user
 app.post('/viewTopic', middlewares.requireSignedIn, middlewares.retrieveSignedInUser, function(req,res){
   req.session.topic_id = req.body.topic_id;
-  console.log("HERE OH ");
+  req.session.message_id = req.body.message_id;
   res.redirect('/forum');
 });
 
+//creates a new topic, based on the current category
 app.post('/createTopic', middlewares.requireSignedIn, middlewares.retrieveSignedInUser, function(req,res){
   const headline = req.body.headline;
   const content = req.body.content;
@@ -143,6 +137,7 @@ app.post('/createTopic', middlewares.requireSignedIn, middlewares.retrieveSigned
 
 });
 
+//creates a new category; a hidden function for devs only
 app.post('/createCategory', middlewares.requireSignedIn, middlewares.retrieveSignedInUser, function(req,res){
   const name = req.body.category;
   const user = req.user;
@@ -157,6 +152,7 @@ app.post('/createCategory', middlewares.requireSignedIn, middlewares.retrieveSig
   });
 });
 
+//increments a topic's votes
 app.post('/upvoteTopic', middlewares.requireSignedIn, middlewares.retrieveSignedInUser, function(req,res){
 
   const topic_id = req.session.ref_id;
@@ -165,6 +161,7 @@ app.post('/upvoteTopic', middlewares.requireSignedIn, middlewares.retrieveSigned
   })
 });
 
+//increments a message's votes
 app.post('/upvoteMessage', middlewares.requireSignedIn, middlewares.retrieveSignedInUser, function(req,res){
 
   const topic_id = req.session.ref_id;

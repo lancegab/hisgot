@@ -33,6 +33,8 @@ router.post('/signup', function(req, res) {
 					//		req.flash('signUpMessage', 'Signed up successfully!');
 							req.session.user = user;
 							req.session.ref_id = 0;
+							req.session.topic_id = 0;
+							req.session.message_id = 0;
 							return res.redirect('/forum');
 					});
 	    });
@@ -60,6 +62,7 @@ router.post('/signin', function(req, res) {
 						req.session.user = user;
 						req.session.ref_id = 0;
 						req.session.topic_id = 0;
+						req.session.message_id = 0;
 						//req.user = user;
 
 				if (remember) {
